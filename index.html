@@ -450,7 +450,9 @@
   }
 
   /* legend block hidden (no longer used in DOM) */
-  details, .legend, .legend-item, .legend-dot { display: none; }
+  .legend, .legend-item, .legend-dot { display: none; }
+  /* .eiken-example uses <details> and must remain visible */
+  details.eiken-example { display: block; }
 
   /* ---- CHOICE KEY (A/B/C/D) ---- */
   .choice {
@@ -690,6 +692,179 @@
     min-height: auto;
   }
 
+  /* ---- EIKEN sub-nav (inside card) ---- */
+  .eiken-nav {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    padding: 0 0 16px;
+    margin: -8px 0 16px;
+    border-bottom: 2px solid var(--text);
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    z-index: 10;
+  }
+  .eiken-nav-btn {
+    padding: 8px 14px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: inherit;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-radius: 4px 4px 0 0;
+    transition: all 0.12s ease;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+  }
+  .eiken-nav-btn:hover {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+  .eiken-nav-btn.active {
+    color: var(--text);
+    background: transparent;
+    border-bottom-color: var(--highlight);
+    font-weight: 800;
+  }
+
+  /* ---- Example tabs (Summary + Essay switcher) ---- */
+  .ex-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 14px 0 4px;
+  }
+  .ex-tab-group-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    min-width: 72px;
+  }
+  .ex-tab {
+    padding: 6px 12px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.83rem;
+    font-family: inherit;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: all 0.12s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ex-tab:hover {
+    border-color: var(--text);
+    color: var(--text);
+    background: var(--surface-2);
+  }
+  .ex-tab.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+  .ex-tab-meta {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    font-family: ui-monospace, monospace;
+    font-weight: 500;
+  }
+
+  /* ---- Example content (Summary/Essay body) ---- */
+  .ex-content {
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+  .ex-header {
+    margin-bottom: 12px;
+  }
+  .ex-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .ex-en {
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+  .ex-meta {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: ui-monospace, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .ex-question {
+    background: var(--surface-2);
+    border-left: 3px solid var(--text-muted);
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 0.9rem;
+    color: var(--text);
+    font-style: italic;
+  }
+  .ex-categories {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 8px 0 16px;
+  }
+  .ex-cat {
+    background: var(--highlight-soft);
+    color: var(--highlight-dark);
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    border: 1px solid var(--highlight);
+  }
+  /* Roomy essay body with paragraph spacing */
+  .ex-essay {
+    background: var(--surface);
+    padding: 8px 0;
+    line-height: 1.85;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+  .ex-paragraph {
+    margin-bottom: 22px;
+  }
+  .ex-paragraph:last-child {
+    margin-bottom: 0;
+  }
+  .ex-paragraph p {
+    margin: 0;
+  }
+  .ex-label {
+    display: inline-block;
+    background: var(--highlight);
+    color: white;
+    font-weight: 800;
+    font-size: 0.74rem;
+    padding: 2px 10px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+    font-family: ui-monospace, monospace;
+  }
+  /* For summary: simple paragraph (no label) */
+  .ex-essay > p.ex-paragraph {
+    padding-left: 14px;
+    border-left: 2px solid var(--accent-soft);
+  }
+
   /* ---- EIKEN VIEW ---- */
   .eiken-section {
     margin-bottom: 32px;
@@ -884,16 +1059,13 @@
     <span class="control-label">モード</span>
     <button class="chip" data-mode="eiken">📝 英検1級 (Summary/Essay)</button>
     <button class="chip" data-mode="list">一覧</button>
+    <button class="chip" data-mode="quiz-base">4択クイズ</button>
     <button class="chip active" data-mode="flashcard">フラッシュカード</button>
-    <button class="chip" data-mode="quiz-para">4択: パラフレ</button>
-    <button class="chip" data-mode="quiz-base">4択: 基本語</button>
-    <button class="chip" data-mode="typing">タイピング</button>
   </div>
-  <div class="control-row">
+  <div class="control-row" id="source-row">
     <span class="control-label">ソース</span>
     <button class="chip active" data-source="all">すべて</button>
     <button class="chip" data-source="paraphrase">パラフレ</button>
-    <button class="chip" data-source="eiken">英検1級 過去問</button>
     <button class="chip" data-source="topic">トピック別</button>
   </div>
   <div class="control-row" id="topic-row">
@@ -901,7 +1073,7 @@
     <button class="chip active" data-topic="all">すべて</button>
     <!-- topic chips injected by JS -->
   </div>
-  <div class="control-row">
+  <div class="control-row" id="pos-row">
     <span class="control-label">品詞</span>
     <button class="chip active" data-pos="all">すべて</button>
     <button class="chip" data-pos="verb">動詞</button>
@@ -910,12 +1082,13 @@
     <button class="chip" data-pos="adv">副詞</button>
     <button class="chip" data-pos="term">用語のみ</button>
   </div>
-  <div class="control-row">
+  <div class="control-row" id="level-row">
     <span class="control-label">レベル</span>
     <button class="chip active" data-level="all">すべて</button>
     <button class="chip" data-level="advanced">高得点語のみ</button>
     <button class="chip" data-level="weak">苦手だけ復習</button>
   </div>
+  <!-- eiken-tab-row removed (moved inside renderEikenView card) -->
 </div>
 
 <div id="mode-banner" class="mode-banner" style="display:none"></div>
@@ -2516,14 +2689,16 @@ const EXTRA_VOCAB = [
 const STORAGE_KEY = "paraphrase_master_v1";
 const defaultState = {
   mode: "flashcard",
-  source: "all",      // "all" | "paraphrase" | "eiken" | "topic"
-  topic: "all",        // "all" | specific topic name
+  source: "all",
+  topic: "all",
   pos: "all",
   level: "all",
+  eikenTab: "templates",  // "templates" | "examples" | "reasons" | "words"
+  eikenExample: "essay-aid",  // which specific example to display in 解答例 tab
   seen: 0,
   correct: 0,
   streak: 0,
-  wordStats: {}, // base -> { seen, correct, marked }
+  wordStats: {},
   currentIdx: -1,
 };
 let state = loadState();
@@ -2533,6 +2708,11 @@ function loadState() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return { ...defaultState };
     const parsed = JSON.parse(raw);
+    // Migrate removed modes/sources to supported ones
+    const validModes = ["eiken", "list", "flashcard", "quiz-base"];
+    if (!validModes.includes(parsed.mode)) parsed.mode = "flashcard";
+    const validSources = ["all", "paraphrase", "topic"];
+    if (!validSources.includes(parsed.source)) parsed.source = "all";
     return { ...defaultState, ...parsed };
   } catch (e) { return { ...defaultState }; }
 }
@@ -2575,7 +2755,10 @@ function filteredVocab() {
 function availableTopics() {
   const set = new Set();
   ALL_VOCAB.forEach(v => {
-    if (v.topic && (state.source === "all" || (v.source || "paraphrase") === state.source)) {
+    if (!v.topic) return;
+    // Eiken is already represented in the source row, so skip it as a topic chip
+    if (v.source === "eiken") return;
+    if (state.source === "all" || (v.source || "paraphrase") === state.source) {
       set.add(v.topic);
     }
   });
@@ -2630,33 +2813,56 @@ let revealed = false;
 
 function render() {
   updateStats();
+  const isEikenMode = state.mode === "eiken";
   const pool = filteredVocab();
-  // Always update banner first so it never shows stale counts
-  if (state.level === "weak") {
-    setBanner(`苦手復習モード: ${pool.length}語が対象`);
-  } else if (state.level === "advanced") {
-    setBanner(`高得点語モード: ${pool.length}語が対象`);
-  } else if (state.source !== "all" || state.topic !== "all") {
-    const parts = [];
-    if (state.source === "eiken") parts.push("英検1級 過去問");
-    else if (state.source === "topic") parts.push("トピック別");
-    else if (state.source === "paraphrase") parts.push("パラフレ");
-    if (state.topic !== "all") parts.push(state.topic);
-    setBanner(`${parts.join(" · ")}: ${pool.length}語が対象`);
+  // Eiken mode: skip filter-based banner & empty checks (it shows static content)
+  if (!isEikenMode) {
+    if (state.level === "weak") {
+      setBanner(`苦手復習モード: ${pool.length}語が対象`);
+    } else if (state.level === "advanced") {
+      setBanner(`高得点語モード: ${pool.length}語が対象`);
+    } else if (state.source !== "all" || state.topic !== "all") {
+      const parts = [];
+      if (state.source === "eiken") parts.push("英検1級 過去問");
+      else if (state.source === "topic") parts.push("トピック別");
+      else if (state.source === "paraphrase") parts.push("パラフレ");
+      if (state.topic !== "all") parts.push(state.topic);
+      setBanner(`${parts.join(" · ")}: ${pool.length}語が対象`);
+    } else {
+      setBanner(null);
+    }
+    if (pool.length === 0) {
+      cardEl.innerHTML = `<div style="text-align:center; padding:60px 20px; color:var(--text-muted)">
+        この条件に該当する語がありません。<br>フィルターを変更してください。
+      </div>`;
+      return;
+    }
   } else {
     setBanner(null);
-  }
-  if (pool.length === 0) {
-    cardEl.innerHTML = `<div style="text-align:center; padding:60px 20px; color:var(--text-muted)">
-      この条件に該当する語がありません。<br>フィルターを変更してください。
-    </div>`;
-    return;
   }
 
   cardEl.classList.toggle("list-mode", state.mode === "list" || state.mode === "eiken");
   // Show search bar only in list mode
   const searchBar = document.getElementById("search-bar-container");
   if (searchBar) searchBar.style.display = (state.mode === "list") ? "block" : "none";
+
+  // Show/hide filter rows based on mode
+  // - eiken mode: only the eiken-tab row is visible
+  // - other modes: source/topic/pos/level visible
+  const isEiken = state.mode === "eiken";
+  const sourceRow = document.getElementById("source-row");
+  const topicRow = document.getElementById("topic-row");
+  const posRow = document.getElementById("pos-row");
+  const levelRow = document.getElementById("level-row");
+  if (sourceRow) sourceRow.style.display = isEiken ? "none" : "flex";
+  if (posRow) posRow.style.display = isEiken ? "none" : "flex";
+  if (levelRow) levelRow.style.display = isEiken ? "none" : "flex";
+  // topicRow is also managed by renderTopicChips (hides on paraphrase source)
+  if (topicRow && isEiken) topicRow.style.display = "none";
+  else if (topicRow) renderTopicChips();
+  // Stats bar visibility (hide in eiken mode since no quizzing)
+  const statsBar = document.querySelector(".stats-bar");
+  if (statsBar) statsBar.style.display = isEiken ? "none" : "flex";
   if (state.mode === "flashcard") renderFlashcard();
   else if (state.mode === "quiz-para") renderQuizPara();
   else if (state.mode === "quiz-base") renderQuizBase();
@@ -2666,17 +2872,41 @@ function render() {
 }
 
 // ---------- EIKEN 1 (Templates + Past Exam Vocab) ----------
-function renderEikenView() {
-  // Get all eiken vocab grouped by source (year-set)
-  const eikenWords = ALL_VOCAB.filter(v => v.source === "eiken");
-  const byYear = {};
-  eikenWords.forEach(v => {
-    const y = v.sub || "?";
-    (byYear[y] = byYear[y] || []).push(v);
-  });
-  const years = Object.keys(byYear).sort();
+function eikenNavHtml() {
+  const tabs = [
+    { id: "templates", label: "📝 Templates" },
+    { id: "examples", label: "✍️ 解答例" },
+    { id: "reasons", label: "💡 Reason Options" },
+    { id: "words", label: "📚 単語" },
+  ];
+  const active = state.eikenTab || "templates";
+  return `<div class="eiken-nav">
+    ${tabs.map(t => `<button class="eiken-nav-btn ${t.id === active ? "active" : ""}" data-eiken-nav="${t.id}">${t.label}</button>`).join("")}
+  </div>`;
+}
 
-  cardEl.innerHTML = `
+function bindEikenNav() {
+  cardEl.querySelectorAll("[data-eiken-nav]").forEach(btn => {
+    btn.onclick = () => {
+      state.eikenTab = btn.dataset.eikenNav;
+      saveState();
+      render();
+    };
+  });
+}
+
+function renderEikenView() {
+  const tab = state.eikenTab || "templates";
+  if (tab === "templates") renderEikenTemplates();
+  else if (tab === "examples") renderEikenExamples();
+  else if (tab === "reasons") renderEikenReasons();
+  else if (tab === "words") renderEikenWords();
+  else renderEikenTemplates();
+  bindEikenNav();
+}
+
+function renderEikenTemplates() {
+  cardEl.innerHTML = eikenNavHtml() + `
     <!-- ========== SUMMARY TEMPLATE ========== -->
     <div class="eiken-section">
       <h3 class="eiken-heading">Summary Template <span class="eiken-word-count">90-110 words</span></h3>
@@ -2787,8 +3017,20 @@ In conclusion, for the reasons stated above ― the fact that <span class="eiken
 <strong>[Conclusion 36w / 2s]</strong> For above reasons, there is no doubt that developing countries should give priority to economic growth over environmental protection. It is hoped the world becomes more aware of the importance of economic development in developing countries.</div>
       </details>
     </div>
+  `;
+}
 
-    <!-- ========== EIKEN PAST EXAM VOCAB ========== -->
+// ----- Eiken: 単語 (vocab list) -----
+function renderEikenWords() {
+  const eikenWords = ALL_VOCAB.filter(v => v.source === "eiken");
+  const byYear = {};
+  eikenWords.forEach(v => {
+    const y = v.sub || "?";
+    (byYear[y] = byYear[y] || []).push(v);
+  });
+  const years = Object.keys(byYear).sort();
+
+  cardEl.innerHTML = eikenNavHtml() + `
     <div class="eiken-section">
       <h3 class="eiken-heading">英検1級 過去問 単語 <span class="eiken-word-count">${eikenWords.length} words</span></h3>
       <div class="eiken-subtitle">回別に整理 — 正解と間違い選択肢を全て収録</div>
@@ -2805,6 +3047,251 @@ In conclusion, for the reasons stated above ― the fact that <span class="eiken
           </div>
         </div>
       `).join("")}
+    </div>
+  `;
+}
+
+// ----- Eiken: 解答例 (sample essays) -----
+// ----- Eiken: Examples (Summary + Essay) with tab switching -----
+const EIKEN_EXAMPLES = {
+  // ---- SUMMARY (90-110 words) ----
+  "sum-wildlife": {
+    kind: "summary", title: "違法野生生物取引", titleEn: "Illegal Wildlife Trade", wordCount: "99 words",
+    slots: [
+      ["A", "the illegal wildlife trade"],
+      ["B", "rising consumer demand and the spread of online marketplaces"],
+      ["C", "rural communities in developing countries"],
+      ["D", "their economies depend heavily on wildlife tourism"],
+      ["E", "the survival of endangered species"],
+      ["F", "governments"],
+      ["G", "protected areas patrolled by rangers"],
+      ["H", "large animals must travel between reserves to find food and breed"],
+    ],
+    paragraphs: [
+      "The illegal wildlife trade has become a serious problem in recent decades, largely driven by rising consumer demand and the spread of online marketplaces.",
+      "This poses a serious threat to rural communities in developing countries, since their economies depend heavily on wildlife tourism, and could further endanger the survival of already vulnerable species.",
+      "In response, governments have introduced protected areas patrolled by rangers in an effort to curb illegal hunting.",
+      "However, such measures have clear limitations, as large animals must travel between reserves to find food and breed, leaving the long-term viability of these populations uncertain.",
+    ],
+  },
+  "sum-ogallala": {
+    kind: "summary", title: "オガララ帯水層", titleEn: "Ogallala Aquifer", wordCount: "108 words",
+    slots: [
+      ["A", "the depletion of the Ogallala Aquifer"],
+      ["B", "decades of intensive irrigation by farmers in the central United States"],
+      ["C", "the regional agricultural economy"],
+      ["D", "crops in the area cannot grow without large-scale irrigation"],
+      ["E", "global food supplies that rely on American exports"],
+      ["F", "several state governments"],
+      ["G", "regulations limiting water extraction and requiring usage meters"],
+      ["H", "such restrictions place a heavy financial burden on farmers and reduce land values"],
+    ],
+    paragraphs: [
+      "The depletion of the Ogallala Aquifer has become a serious problem in recent decades, largely driven by decades of intensive irrigation by farmers in the central United States.",
+      "This poses a serious threat to the regional agricultural economy, since crops in the area cannot grow without large-scale irrigation, and could further undermine global food supplies that rely on American exports.",
+      "In response, several state governments have introduced regulations limiting water extraction and requiring usage meters in an effort to address the problem.",
+      "However, such measures have clear limitations, as they place a heavy financial burden on farmers and reduce land values, leaving the long-term sustainability of regional farming uncertain.",
+    ],
+  },
+  "sum-blood": {
+    kind: "summary", title: "献血不足", titleEn: "Blood Shortage", wordCount: "108 words",
+    slots: [
+      ["A", "the shortage of donated blood"],
+      ["B", "the lack of funds to build and maintain refrigerated storage facilities"],
+      ["C", "hospitals in developing countries"],
+      ["D", "blood is essential for surgery, accident victims, and complicated childbirth"],
+      ["E", "the lives of patients with chronic illnesses"],
+      ["F", "medical experts"],
+      ["G", "networks of volunteer donors who can be called upon when needed"],
+      ["H", "transfusion-borne diseases such as hepatitis remain difficult to detect"],
+    ],
+    paragraphs: [
+      "The shortage of donated blood has become a serious problem in recent decades, largely driven by the lack of funds to build and maintain refrigerated storage facilities in poorer regions.",
+      "This poses a serious threat to hospitals in developing countries, since blood is essential for surgery, accident victims, and complicated childbirth, and could further endanger the lives of patients with chronic illnesses.",
+      "In response, medical experts have introduced networks of volunteer donors who can be called upon when needed, in an effort to address the problem.",
+      "However, such measures have clear limitations, as transfusion-borne diseases such as hepatitis remain difficult to detect, leaving the long-term viability of this approach uncertain.",
+    ],
+  },
+  // ---- ESSAY (200-240 words) ----
+  "essay-aid": {
+    kind: "essay", title: "対外援助", titleEn: "Foreign Aid", wordCount: "236 words", stance: "Agree",
+    categories: ["Political", "Economic", "Humanitarian"],
+    question: "Should the Japanese government give more money as aid to foreign countries?",
+    paragraphs: [
+      ["[Intro]", "In today's interconnected world, the role of foreign aid has been rapidly increasing as a tool of diplomacy and humanitarian relief. Despite this, some argue that Japan should prioritize domestic challenges such as poverty and an aging population. Although both are critical, I strongly believe that the Japanese government should increase foreign aid for the following three reasons."],
+      ["[Body 1 — Political]", "Firstly, foreign aid significantly enhances Japan's diplomatic standing. By providing financial assistance to developing nations in Southeast Asia and Africa, Japan secures reliable allies and strengthens its influence against rising powers such as China. As a result, aid functions not merely as charity but as a strategic investment in national security."],
+      ["[Body 2 — Economic]", "Secondly, supporting foreign countries directly benefits the Japanese economy. Many recipient nations use aid to build infrastructure with Japanese technology, which generates substantial contracts for domestic companies and creates employment. This means that yen spent overseas often returns home in the form of trade revenue and stable supply chains."],
+      ["[Body 3 — Humanitarian]", "Finally, Japan has a humanitarian responsibility as a leading developed nation. Millions of people in low-income countries suffer from poverty, disease, and conflict, and wealthy democracies are uniquely positioned to alleviate such hardship. Therefore, expanding aid reflects the moral leadership expected of a global economic power."],
+      ["[Conclusion]", "In conclusion, for the reasons stated above—the fact that aid strengthens diplomacy, stimulates the economy, and fulfills humanitarian duty—it is hoped that the Japanese government becomes more aware of the importance of foreign aid."],
+    ],
+    notes: [
+      "<strong>カウンターアーギュメント先取り</strong>: 序論で \"some argue that Japan should prioritize domestic challenges\" → Content評価UP",
+      "<strong>具体性の入れ方</strong>: Southeast Asia / Africa / China のように固有名詞を1〜2個。入れすぎは事実誤認リスク",
+      "<strong>Cohesion 表現</strong>: As a result / This means that / Therefore を理由ごとに変える",
+      "<strong>結論の dash 構造</strong>: \"—the fact that A, B, and C—\" で序論3点を綺麗に回収 → Organization評価で確実に得点",
+    ],
+  },
+  "essay-plastic": {
+    kind: "essay", title: "プラ禁止", titleEn: "Ban single-use plastic", wordCount: "238 words", stance: "Agree",
+    categories: ["Environmental", "Innovation", "Health"],
+    question: "Should governments ban the sale of single-use plastic products?",
+    paragraphs: [
+      ["[Intro]", "In recent years, the importance of environmental protection has been rapidly increasing on the global agenda. Despite this, some argue that single-use plastics remain indispensable for hygiene and convenience. Although both perspectives have merit, I strongly believe that governments should ban the sale of single-use plastic products for the following three reasons."],
+      ["[Body 1 — Environmental]", "Firstly, single-use plastics cause severe and irreversible ecological damage. Each year, millions of tons of plastic waste enter the oceans, breaking down into microplastics that contaminate marine food chains and ultimately reach human consumption. Therefore, only legal prohibition—not voluntary reduction—can halt this accelerating crisis."],
+      ["[Body 2 — Innovation]", "Secondly, a government-led ban stimulates innovation in sustainable alternatives. When clear regulations are imposed, companies invest aggressively in biodegradable materials, reusable containers, and refill systems, as observed in the European Union after its 2021 ban. As a result, restrictions function as a catalyst for green industries rather than an economic burden."],
+      ["[Body 3 — Health]", "Finally, banning single-use plastics protects public health. Recent studies have detected microplastics in human blood, lungs, and even placentas, raising serious concerns about long-term effects such as hormonal disruption and cancer. This means that regulating plastics is not merely environmental policy but a fundamental public-health measure that governments must enforce."],
+      ["[Conclusion]", "In conclusion, for the reasons stated above—the fact that plastics devastate ecosystems, hinder innovation when unregulated, and threaten human health—it is hoped that governments worldwide become more aware of the importance of eliminating single-use plastic products."],
+    ],
+    notes: [
+      "<strong>環境トピックで「Innovation」を入れた点</strong>: \"ban = 経済悪影響\" 反論を逆手にとり「ban こそイノベーション源」と切り返す",
+      "<strong>具体データ</strong>: \"2021年EU禁止令\" / \"血液・肺・胎盤からのマイクロプラスチック検出\" — 検証可能で印象に残る",
+      "<strong>1級レベル語彙</strong>: irreversible / catalyst / hormonal disruption / devastate / hinder",
+      "<strong>\"only A—not B—can ~\" 強調構文</strong>: 理由①で差をつける",
+    ],
+  },
+  "essay-economy": {
+    kind: "essay", title: "経済優先 (Atsu)", titleEn: "Economic development", wordCount: "263 words", stance: "Agree",
+    categories: ["Precursor", "Lives saved", "Responsibility"],
+    question: "Should economic development be a higher priority for developing countries than environmental protection?",
+    paragraphs: [
+      ["[Intro 39w]", "Nowadays, the importance of economic development for developing countries has been rapidly increasing. Despite this, some argue environmental protection should be their focus. Although both are critical, I strongly believe that economic development should be prioritized over environmental protection."],
+      ["[Body 1 — Precursor 68w]", "First, economic development acts as a precursor to protecting the environment, but not vice versa. Australia, for example, is said to have spent approximately $8 billion to protect Great Barrier Reef. What allowed Australia to invest this amount of money is its steady economic growth since the country was established about 100 years ago. Without it, it could not have realized the conservation of this beautiful coral reef."],
+      ["[Body 2 — Lives 66w]", "Further, economic growth saves people's lives. For instance, a report issued by Cambridge University shows the number of deaths from starvation in China has declined dramatically with its GDP growth. The report says this is because its national income growth allowed the country to distribute food assistance to the poor. If the country had focused on environmental protection, it would have had to forsake these people."],
+      ["[Body 3 — Responsibility 54w]", "Lastly, developed countries are ultimately responsible for the world's environmental problems. As a case in point, many US corporations have outsourced their factories to developing nations such as Indonesia and Vietnam, and as a result, they have successfully shifted the burden of carbon dioxide emissions. The consequence of this is obviously economic disparity."],
+      ["[Conclusion 36w]", "For above reasons, there is no doubt that developing countries should give priority to economic growth over environmental protection. It is hoped the world becomes more aware of the importance of economic development in developing countries."],
+    ],
+    notes: [],
+  },
+};
+
+function renderEikenExamples() {
+  const exId = EIKEN_EXAMPLES[state.eikenExample] ? state.eikenExample : "essay-aid";
+  const ex = EIKEN_EXAMPLES[exId];
+
+  const summaryIds = Object.keys(EIKEN_EXAMPLES).filter(k => EIKEN_EXAMPLES[k].kind === "summary");
+  const essayIds = Object.keys(EIKEN_EXAMPLES).filter(k => EIKEN_EXAMPLES[k].kind === "essay");
+
+  const tabBtn = (id) => {
+    const e = EIKEN_EXAMPLES[id];
+    return `<button class="ex-tab ${id === exId ? "active" : ""}" data-ex-id="${id}">${escapeHtml(e.title)} <span class="ex-tab-meta">${e.wordCount}</span></button>`;
+  };
+
+  let body = "";
+  if (ex.kind === "summary") {
+    body = `
+      <div class="ex-header">
+        <div class="ex-title">📄 Summary: ${escapeHtml(ex.title)} <span class="ex-en">(${escapeHtml(ex.titleEn)})</span></div>
+        <div class="ex-meta">${escapeHtml(ex.wordCount)} · 4-sentence skeleton</div>
+      </div>
+      <div class="eiken-subtitle" style="margin-top:14px;">スロット埋め</div>
+      <table class="eiken-slot-table">
+        ${ex.slots.map(([k, v]) => `<tr><th>${k}</th><td>${escapeHtml(v)}</td></tr>`).join("")}
+      </table>
+      <div class="eiken-subtitle" style="margin-top:14px;">完成要約</div>
+      <div class="ex-essay">
+        ${ex.paragraphs.map(p => `<p class="ex-paragraph">${escapeHtml(p)}</p>`).join("")}
+      </div>`;
+  } else {
+    body = `
+      <div class="ex-header">
+        <div class="ex-title">✍️ Essay: ${escapeHtml(ex.title)} <span class="ex-en">(${escapeHtml(ex.titleEn)})</span></div>
+        <div class="ex-meta">${escapeHtml(ex.wordCount)} · ${escapeHtml(ex.stance)}</div>
+      </div>
+      <div class="ex-question">${escapeHtml(ex.question)}</div>
+      <div class="ex-categories">
+        ${ex.categories.map((c, i) => `<span class="ex-cat">理由${i+1}: ${escapeHtml(c)}</span>`).join("")}
+      </div>
+      <div class="ex-essay">
+        ${ex.paragraphs.map(([label, content]) => `
+          <div class="ex-paragraph">
+            <div class="ex-label">${escapeHtml(label)}</div>
+            <p>${escapeHtml(content)}</p>
+          </div>
+        `).join("")}
+      </div>
+      ${ex.notes.length ? `
+        <div class="eiken-subtitle" style="margin-top:18px;">📌 工夫したところ</div>
+        <ul class="eiken-skel-list">
+          ${ex.notes.map(n => `<li>${n}</li>`).join("")}
+        </ul>` : ""}`;
+  }
+
+  cardEl.innerHTML = eikenNavHtml() + `
+    <div class="eiken-section">
+      <h3 class="eiken-heading">英検1級 ライティング 解答例</h3>
+      <div class="eiken-subtitle">タブで切り替え — Summary 3例 + Essay 3例</div>
+
+      <div class="ex-tabs">
+        <div class="ex-tab-group-label">Summary</div>
+        ${summaryIds.map(tabBtn).join("")}
+      </div>
+      <div class="ex-tabs">
+        <div class="ex-tab-group-label">Essay</div>
+        ${essayIds.map(tabBtn).join("")}
+      </div>
+
+      <div class="ex-content">
+        ${body}
+      </div>
+
+      <div class="eiken-tip" style="margin-top:18px;">⏱ <strong>本番運用のコツ</strong> — 構想 5分 → 執筆 17分 → 見直し 3分。字数感覚: 序論50 + 各理由50×3 + 結論40 = <strong>240 words 黄金比</strong></div>
+    </div>
+  `;
+
+  // Bind example tab clicks
+  cardEl.querySelectorAll("[data-ex-id]").forEach(btn => {
+    btn.onclick = () => {
+      state.eikenExample = btn.dataset.exId;
+      saveState();
+      render();
+    };
+  });
+}
+
+// ----- Eiken: Reason Options -----
+function renderEikenReasons() {
+  const core = [
+    { num: 1, name: "Economic Foundation", jp: "経済的基盤", desc: "経済力がすべての施策の前提となる", keys: ["precursor","financial viability","infrastructure","GDP growth","capital allocation"] },
+    { num: 2, name: "Human Welfare / Lives", jp: "人命・福祉", desc: "人々の命と生活水準を守ることが最優先", keys: ["alleviate poverty","public health","social stability","quality of life","livelihood"] },
+    { num: 3, name: "Accountability / Fairness", jp: "責任・公平性", desc: "利益を得た側や力ある側が負担を負うべき", keys: ["historical responsibility","outsourcing the burden","ethical standards","equity","polluter-pays principle"] },
+    { num: 4, name: "Cost-Effectiveness", jp: "費用対効果", desc: "長期的に見れば予防・投資の方が安上がり", keys: ["cost-benefit ratio","long-term savings","fiscal prudence","return on investment","preventive approach"] },
+    { num: 5, name: "Long-Term Sustainability", jp: "持続可能性", desc: "短期的対症療法では危機を先送りするだけ", keys: ["intergenerational equity","irreversible damage","sustainable development","resilience","future generations"] },
+    { num: 6, name: "Public Health & Safety", jp: "公衆衛生・安全", desc: "心身の健康と安全は譲れない最低ライン", keys: ["mortality rate","preventive measures","well-being","occupational safety","pandemic preparedness"] },
+    { num: 7, name: "Human Rights & Ethics", jp: "人権・倫理", desc: "普遍的な尊厳と公正が行動を要請する", keys: ["human dignity","universal rights","moral obligation","social justice","inclusion"] },
+    { num: 8, name: "Education & Human Capital", jp: "教育・人的資本", desc: "人への投資があらゆる成果の源泉となる", keys: ["literacy","skill formation","workforce competitiveness","lifelong learning","knowledge economy"] },
+    { num: 9, name: "Innovation & Technological Progress", jp: "技術革新", desc: "自由と投資が全人類に恩恵をもたらす突破口を生む", keys: ["R&D investment","breakthrough","productivity gains","knowledge spillover","disruptive technology"] },
+    { num: 10, name: "Global Cooperation / Diplomacy", jp: "国際協調", desc: "国境を越える課題には集団的対応が不可欠", keys: ["multilateral framework","cross-border challenges","soft power","geopolitical stability","collective action"] },
+  ];
+  const bonus = [
+    { num: 1, name: "Flexibility", jp: "柔軟性", desc: "状況や個人差に応じた対応が可能になる", keys: ["adaptability","customization","self-paced","individual needs","tailored approach"] },
+    { num: 2, name: "Accessibility", jp: "アクセス性", desc: "地理的・経済的制約を越えて広く届く", keys: ["geographical reach","inclusivity","barrier-free","universal access","democratization"] },
+    { num: 3, name: "Efficiency / Productivity", jp: "効率性", desc: "限られた資源で最大の成果を生む", keys: ["time-saving","streamlined process","optimization","throughput","automation"] },
+    { num: 4, name: "Cultural Diversity", jp: "文化的多様性", desc: "多様な価値観の共存が社会を豊かにする", keys: ["pluralism","cross-cultural exchange","mutual understanding","heritage preservation"] },
+    { num: 5, name: "Mental Well-being", jp: "精神的健康", desc: "心の健康はあらゆる活動の土台である", keys: ["stress reduction","work-life balance","psychological safety","burnout prevention"] },
+  ];
+  const renderReason = (r) => `
+    <div style="display:grid; grid-template-columns: 36px 1fr; gap:8px 12px; padding:12px 0; border-bottom:1px dashed var(--border);">
+      <div style="font-family:ui-monospace,monospace; font-weight:800; color:var(--highlight); font-size:0.95rem;">${String(r.num).padStart(2,"0")}</div>
+      <div>
+        <div style="font-weight:800; font-size:1rem; color:var(--text); margin-bottom:2px;">${escapeHtml(r.name)} <span style="color:var(--text-muted); font-weight:500; font-size:0.85rem;">(${escapeHtml(r.jp)})</span></div>
+        <div style="color:var(--text-2); font-size:0.85rem; margin-bottom:6px;">${escapeHtml(r.desc)}</div>
+        <div style="display:flex; flex-wrap:wrap; gap:4px 6px;">
+          ${r.keys.map(k => `<span class="para-pill" style="font-size:0.78rem; padding:2px 8px;">${escapeHtml(k)}</span>`).join("")}
+        </div>
+      </div>
+    </div>`;
+
+  cardEl.innerHTML = eikenNavHtml() + `
+    <div class="eiken-section">
+      <h3 class="eiken-heading">Reason Options <span class="eiken-word-count">15 categories</span></h3>
+      <div class="eiken-subtitle">理由3つを異なるカテゴリから選定 — 各キーワードはbody段落の核に使う</div>
+      <div class="eiken-tip">🎯 <strong>戦略</strong>: 1〜10の Core から3つ選択。同じカテゴリ重複NG (例: 環境系3つは避ける)。具体例・固有名詞を各理由1個まで挿入。</div>
+
+      <div class="eiken-subtitle" style="margin-top:18px;">Core (10 categories)</div>
+      ${core.map(renderReason).join("")}
+
+      <div class="eiken-subtitle" style="margin-top:24px;">Bonus — Soft Angles (5 categories)</div>
+      ${bonus.map(renderReason).join("")}
     </div>
   `;
 }
@@ -3434,6 +3921,7 @@ function renderTopicChips() {
 
 bindSourceChips();
 renderTopicChips();
+// Eiken sub-nav is bound dynamically each render via bindEikenNav()
 
 document.getElementById("reset-btn").onclick = () => {
   if (confirm("進捗データをすべてリセットしますか？")) {
