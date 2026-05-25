@@ -882,12 +882,12 @@
 <div class="controls">
   <div class="control-row">
     <span class="control-label">モード</span>
+    <button class="chip" data-mode="eiken">📝 英検1級 (Summary/Essay)</button>
+    <button class="chip" data-mode="list">一覧</button>
     <button class="chip active" data-mode="flashcard">フラッシュカード</button>
     <button class="chip" data-mode="quiz-para">4択: パラフレ</button>
     <button class="chip" data-mode="quiz-base">4択: 基本語</button>
     <button class="chip" data-mode="typing">タイピング</button>
-    <button class="chip" data-mode="list">一覧</button>
-    <button class="chip" data-mode="eiken">📝 英検1級 (Summary/Essay)</button>
   </div>
   <div class="control-row">
     <span class="control-label">ソース</span>
@@ -919,6 +919,11 @@
 </div>
 
 <div id="mode-banner" class="mode-banner" style="display:none"></div>
+
+<div id="search-bar-container" style="display:none; margin-bottom: 14px;">
+  <input type="text" class="list-search" id="list-search-top" placeholder="🔍 基本語・日本語・パラフレ・トピックで検索…" autocomplete="off">
+  <div class="list-summary" id="list-summary-top" style="margin-top: 8px;"></div>
+</div>
 
 <div class="history-pos" id="history-pos"></div>
 <div class="card" id="card">
@@ -2649,6 +2654,9 @@ function render() {
   }
 
   cardEl.classList.toggle("list-mode", state.mode === "list" || state.mode === "eiken");
+  // Show search bar only in list mode
+  const searchBar = document.getElementById("search-bar-container");
+  if (searchBar) searchBar.style.display = (state.mode === "list") ? "block" : "none";
   if (state.mode === "flashcard") renderFlashcard();
   else if (state.mode === "quiz-para") renderQuizPara();
   else if (state.mode === "quiz-base") renderQuizBase();
@@ -2830,12 +2838,13 @@ function renderList() {
   const order = ["verb", "noun", "adj", "adv"];
   const totalEntries = matches.length;
 
-  let html = `
-    <input type="text" class="list-search" id="list-search" placeholder="🔍 基本語・日本語・パラフレ・トピックで検索…" value="${escapeHtml(listSearchTerm)}">
-    <div class="list-summary">
-      ${totalEntries} エントリ${term ? ` · 検索: "${escapeHtml(term)}"` : ""}
-    </div>
-  `;
+  // Update the top search bar's summary and input value (no re-creation)
+  const topSummary = document.getElementById("list-summary-top");
+  if (topSummary) {
+    topSummary.textContent = `${totalEntries} エントリ${term ? ` · 検索: "${term}"` : ""}`;
+  }
+
+  let html = ``;
 
   if (matches.length === 0) {
     html += `<div class="list-empty">該当する語がありません</div>`;
@@ -2875,32 +2884,30 @@ function renderList() {
         if (sub !== "—") {
           html += `<div style="font-size:0.7rem; color:var(--text-muted); margin:8px 0 4px; text-transform:uppercase; letter-spacing:0.08em; font-weight:600;">${escapeHtml(sub)}</div>`;
         }
+        html += `<div class="eiken-vocab-grid">`;
         bySub[sub].forEach(v => {
           const stat = state.wordStats[v.base];
-          html += `<div class="list-entry" style="padding:8px 0; border-bottom-style:dotted;">
-            <div class="list-entry-header" style="margin-bottom:2px">
-              <span class="list-entry-base" style="font-size:1rem">${escapeHtml(v.base)}</span>
-              <span class="list-entry-jp">${escapeHtml(v.jp)}</span>
-              ${stat && stat.marked ? `<span class="list-entry-meta"><span class="marked">復習</span></span>` : ""}
-            </div>
+          html += `<div class="eiken-vocab-item">
+            <span class="ev-base">${escapeHtml(v.base)}</span>
+            <span class="ev-jp">${escapeHtml(v.jp)}${stat && stat.marked ? ' <span class="marked" style="margin-left:4px;">復習</span>' : ''}</span>
           </div>`;
         });
+        html += `</div>`;
       });
     });
   }
   cardEl.innerHTML = html;
+}
 
-  const searchInput = document.getElementById("list-search");
-  if (searchInput) {
-    searchInput.oninput = (e) => {
-      listSearchTerm = e.target.value;
-      const pos = e.target.selectionStart;
-      renderList();
-      const newInput = document.getElementById("list-search");
-      newInput.focus();
-      try { newInput.setSelectionRange(pos, pos); } catch (e) {}
-    };
-  }
+// Bind top search bar once at init
+function bindTopSearch() {
+  const topInput = document.getElementById("list-search-top");
+  if (!topInput) return;
+  topInput.value = listSearchTerm;
+  topInput.oninput = (e) => {
+    listSearchTerm = e.target.value;
+    if (state.mode === "list") renderList();
+  };
 }
 
 // =========================================
@@ -3538,6 +3545,7 @@ const origRender = render;
 render = function() { origRender(); updateKbdContext(); };
 
 // Init
+bindTopSearch();
 nextWord();
 </script>
 </body>
