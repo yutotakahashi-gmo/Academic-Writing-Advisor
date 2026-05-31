@@ -222,6 +222,10 @@
     display: flex;
     flex-direction: column;
   }
+  /* Roomier padding for eiken / list (long-form content) */
+  .card.list-mode {
+    padding: 40px 40px 48px;
+  }
 
   /* ---- WORD HEADER (dictionary entry style) ---- */
   .word-header {
@@ -781,23 +785,24 @@
 
   /* ---- Example content (Summary/Essay body) ---- */
   .ex-content {
-    margin-top: 22px;
-    padding-top: 22px;
+    margin-top: 32px;
+    padding-top: 32px;
     border-top: 1px solid var(--border);
   }
   .ex-header {
-    margin-bottom: 12px;
+    margin-bottom: 18px;
   }
   .ex-title {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 800;
     color: var(--text);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
   }
   .ex-en {
     color: var(--text-muted);
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
   .ex-meta {
     font-size: 0.78rem;
@@ -808,78 +813,167 @@
   }
   .ex-question {
     background: var(--surface-2);
-    border-left: 3px solid var(--text-muted);
-    padding: 10px 14px;
-    margin: 10px 0;
-    font-size: 0.9rem;
+    border-left: 4px solid var(--text);
+    padding: 18px 22px;
+    margin: 20px 0;
+    font-size: 0.95rem;
     color: var(--text);
     font-style: italic;
+    line-height: 1.7;
   }
   .ex-categories {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     flex-wrap: wrap;
-    margin: 8px 0 16px;
+    margin: 16px 0 28px;
   }
   .ex-cat {
     background: var(--highlight-soft);
     color: var(--highlight-dark);
-    padding: 3px 10px;
-    border-radius: 3px;
-    font-size: 0.78rem;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 0.82rem;
     font-weight: 700;
     border: 1px solid var(--highlight);
+    letter-spacing: 0.02em;
   }
-  /* Roomy essay body with paragraph spacing */
+  /* Roomy essay body with generous paragraph spacing */
   .ex-essay {
     background: var(--surface);
-    padding: 8px 0;
-    line-height: 1.85;
-    font-size: 0.95rem;
+    padding: 16px 0 8px;
+    line-height: 2.0;
+    font-size: 0.98rem;
     color: var(--text);
   }
   .ex-paragraph {
-    margin-bottom: 22px;
+    margin-bottom: 42px;
   }
   .ex-paragraph:last-child {
     margin-bottom: 0;
   }
   .ex-paragraph p {
     margin: 0;
+    padding-left: 16px;
+    border-left: 2px solid var(--border);
   }
   .ex-label {
     display: inline-block;
     background: var(--highlight);
     color: white;
     font-weight: 800;
-    font-size: 0.74rem;
-    padding: 2px 10px;
+    font-size: 0.78rem;
+    padding: 5px 14px;
     border-radius: 3px;
-    margin-bottom: 8px;
-    letter-spacing: 0.04em;
+    margin-bottom: 14px;
+    letter-spacing: 0.05em;
     font-family: ui-monospace, monospace;
+    text-transform: uppercase;
   }
   /* For summary: simple paragraph (no label) */
   .ex-essay > p.ex-paragraph {
-    padding-left: 14px;
-    border-left: 2px solid var(--accent-soft);
+    padding-left: 18px;
+    border-left: 3px solid var(--accent-soft);
+    margin-bottom: 32px;
+  }
+  /* eiken-slot-table: more spacing */
+  .eiken-slot-table th, .eiken-slot-table td {
+    padding: 10px 14px;
+  }
+
+  /* ---- CORRECTION TAB (添削) ---- */
+  /* Highlighter pen style — Atsueigo-inspired */
+  .essay-highlight {
+    background: #fff3bf;     /* light yellow */
+    color: #1c1917;
+    padding: 1px 3px;
+    border-bottom: 3px solid #fcc419;   /* golden yellow underline */
+    font-weight: 500;
+    /* preserve breaking */
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  @media (prefers-color-scheme: dark) {
+    .essay-highlight {
+      background: #fff3bf;
+      color: #18181b;
+      border-bottom-color: #fcc419;
+    }
+  }
+  .correction-essay {
+    line-height: 2.0;
+    font-size: 1rem;
+    color: var(--text);
+    padding: 8px 0;
+  }
+  .correction-para {
+    margin: 0 0 32px;
+    padding-left: 18px;
+    border-left: 3px solid var(--accent-soft);
+  }
+  .correction-para:last-child { margin-bottom: 0; }
+
+  .err-group {
+    margin: 16px 0 24px;
+  }
+  .err-group-title {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: var(--highlight);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .err-row {
+    display: grid;
+    grid-template-columns: 1fr 24px 1fr;
+    gap: 8px 10px;
+    padding: 8px 10px;
+    border-bottom: 1px dotted var(--border);
+    font-size: 0.88rem;
+    align-items: start;
+    line-height: 1.55;
+  }
+  .err-row:last-child { border-bottom: none; }
+  .err-wrong {
+    color: var(--error);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.85rem;
+    text-decoration: line-through;
+    text-decoration-color: var(--error);
+    text-decoration-thickness: 1px;
+  }
+  .err-arrow {
+    color: var(--text-muted);
+    text-align: center;
+    font-weight: 700;
+  }
+  .err-right {
+    color: var(--text);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.85rem;
+  }
+  @media (max-width: 600px) {
+    .err-row { grid-template-columns: 1fr; }
+    .err-arrow { text-align: left; }
   }
 
   /* ---- EIKEN VIEW ---- */
   .eiken-section {
-    margin-bottom: 32px;
-    padding-bottom: 24px;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
     border-bottom: 1px solid var(--border);
   }
   .eiken-section:last-child { border-bottom: none; margin-bottom: 0; }
   .eiken-heading {
-    font-size: 1.05rem;
+    font-size: 1.15rem;
     font-weight: 800;
     color: var(--text);
-    margin: 0 0 4px;
+    margin: 0 0 6px;
     letter-spacing: -0.01em;
-    border-bottom: 2px solid var(--highlight);
-    padding-bottom: 4px;
+    border-bottom: 3px solid var(--highlight);
+    padding-bottom: 6px;
     display: inline-block;
   }
   .eiken-subtitle {
@@ -888,7 +982,7 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-weight: 600;
-    margin: 4px 0 12px;
+    margin: 8px 0 16px;
   }
   .eiken-template {
     background: var(--surface-2);
@@ -2693,8 +2787,9 @@ const defaultState = {
   topic: "all",
   pos: "all",
   level: "all",
-  eikenTab: "templates",  // "templates" | "examples" | "reasons" | "words"
-  eikenExample: "essay-aid",  // which specific example to display in 解答例 tab
+  eikenTab: "templates",  // "templates" | "examples" | "reasons" | "correction" | "words"
+  eikenExample: "essay-aid",
+  correctionTab: "essay",  // "essay" | "summary"
   seen: 0,
   correct: 0,
   streak: 0,
@@ -2877,6 +2972,7 @@ function eikenNavHtml() {
     { id: "templates", label: "📝 Templates" },
     { id: "examples", label: "✍️ 解答例" },
     { id: "reasons", label: "💡 Reason Options" },
+    { id: "correction", label: "🖍️ 添削" },
     { id: "words", label: "📚 単語" },
   ];
   const active = state.eikenTab || "templates";
@@ -2900,6 +2996,7 @@ function renderEikenView() {
   if (tab === "templates") renderEikenTemplates();
   else if (tab === "examples") renderEikenExamples();
   else if (tab === "reasons") renderEikenReasons();
+  else if (tab === "correction") renderEikenCorrection();
   else if (tab === "words") renderEikenWords();
   else renderEikenTemplates();
   bindEikenNav();
@@ -2912,68 +3009,32 @@ function renderEikenTemplates() {
       <h3 class="eiken-heading">Summary Template <span class="eiken-word-count">90-110 words</span></h3>
       <div class="eiken-subtitle">25 + 25 + 25 + 25 — 4-sentence skeleton with slot fills</div>
 
+      <div class="eiken-tip" style="background:#fff3bf; border-left:3px solid #fcc419; color:#1c1917; font-weight:600;">
+        ⚠️ <strong>Summary は1段落で書く！</strong><br>
+        ・S1〜S4は<strong>1つの流れる段落</strong>として設計 (約100語を改行で割ると不自然)<br>
+        ・<strong>試験では改行禁止</strong> — 1ブロックに凝縮するのが Summary の趣旨<br>
+        ・段落分けが効くのは Task 5 のエッセイ (intro / body / conclusion) のみ
+      </div>
+
       <div class="eiken-template"><span class="eiken-fixed">[S1]</span> <span class="eiken-slot">A</span> has become a major issue in recent decades, largely driven by <span class="eiken-slot">B</span>.
 
 <span class="eiken-fixed">[S2]</span> This poses a serious threat to <span class="eiken-slot">C</span>, since <span class="eiken-slot">D</span>, and could further {diminish / damage / undermine / endanger} <span class="eiken-slot">E</span>.
 
 <span class="eiken-fixed">[S3]</span> In response, <span class="eiken-slot">F</span> {has / have} introduced <span class="eiken-slot">G</span> ({legislation / regulations / measures / protected zones / alternatives}) in an effort to {mitigate / curb / address} the problem.
 
-<span class="eiken-fixed">[S4]</span> However, such measures have clear limitations, as <span class="eiken-slot">H</span>, leaving the long-term {viability / future / sustainability} of <span class="eiken-slot">A</span> uncertain.</div>
+<span class="eiken-fixed">[S4]</span> However, such measures have clear limitations, as <span class="eiken-slot">H</span>, leaving the long-term {viability / future / sustainability} of <span class="eiken-fixed">this approach</span> uncertain.</div>
 
       <div class="eiken-subtitle">📌 暗記すべき骨格20語</div>
       <ul class="eiken-skel-list">
         <li>has become a serious problem in recent decades, largely driven by ___</li>
         <li>poses a serious threat to ~, since ~</li>
         <li>in an effort to mitigate the problem</li>
-        <li>leaving the long-term viability of ~ uncertain</li>
+        <li>leaving the long-term viability of this approach uncertain</li>
       </ul>
 
       <div class="eiken-tip">⏱ <strong>時間配分</strong>: スロット抽出 5分 → 執筆 10分 → 見直し 3分。書き終えたら「Cが本当に被害者か / Hが本当に対策の限界か」を1度だけ原文と照合。</div>
 
-      <details class="eiken-example">
-        <summary>記事1: 違法野生生物取引 (Illegal Wildlife Trade) — 99 words</summary>
-        <table class="eiken-slot-table">
-          <tr><th>A</th><td>the illegal wildlife trade</td></tr>
-          <tr><th>B</th><td>rising consumer demand and the spread of online marketplaces</td></tr>
-          <tr><th>C</th><td>rural communities in developing countries</td></tr>
-          <tr><th>D</th><td>their economies depend heavily on wildlife tourism</td></tr>
-          <tr><th>E</th><td>the survival of endangered species</td></tr>
-          <tr><th>F</th><td>governments</td></tr>
-          <tr><th>G</th><td>protected areas patrolled by rangers</td></tr>
-          <tr><th>H</th><td>large animals must travel between reserves to find food and breed</td></tr>
-        </table>
-        <div class="eiken-completed">The illegal wildlife trade has become a serious problem in recent decades, largely driven by rising consumer demand and the spread of online marketplaces. This poses a serious threat to rural communities in developing countries, since their economies depend heavily on wildlife tourism, and could further endanger the survival of already vulnerable species. In response, governments have introduced protected areas patrolled by rangers in an effort to curb illegal hunting. However, such measures have clear limitations, as large animals must travel between reserves to find food and breed, leaving the long-term viability of these populations uncertain.</div>
-      </details>
-
-      <details class="eiken-example">
-        <summary>記事2: オガララ帯水層 (Ogallala Aquifer) — 108 words</summary>
-        <table class="eiken-slot-table">
-          <tr><th>A</th><td>the depletion of the Ogallala Aquifer</td></tr>
-          <tr><th>B</th><td>decades of intensive irrigation by farmers in the central United States</td></tr>
-          <tr><th>C</th><td>the regional agricultural economy</td></tr>
-          <tr><th>D</th><td>crops in the area cannot grow without large-scale irrigation</td></tr>
-          <tr><th>E</th><td>global food supplies that rely on American exports</td></tr>
-          <tr><th>F</th><td>several state governments</td></tr>
-          <tr><th>G</th><td>regulations limiting water extraction and requiring usage meters</td></tr>
-          <tr><th>H</th><td>such restrictions place a heavy financial burden on farmers and reduce land values</td></tr>
-        </table>
-        <div class="eiken-completed">The depletion of the Ogallala Aquifer has become a serious problem in recent decades, largely driven by decades of intensive irrigation by farmers in the central United States. This poses a serious threat to the regional agricultural economy, since crops in the area cannot grow without large-scale irrigation, and could further undermine global food supplies that rely on American exports. In response, several state governments have introduced regulations limiting water extraction and requiring usage meters in an effort to address the problem. However, such measures have clear limitations, as they place a heavy financial burden on farmers and reduce land values, leaving the long-term sustainability of regional farming uncertain.</div>
-      </details>
-
-      <details class="eiken-example">
-        <summary>記事3: 献血不足 (Blood Shortage) — 108 words</summary>
-        <table class="eiken-slot-table">
-          <tr><th>A</th><td>the shortage of donated blood</td></tr>
-          <tr><th>B</th><td>the lack of funds to build and maintain refrigerated storage facilities</td></tr>
-          <tr><th>C</th><td>hospitals in developing countries</td></tr>
-          <tr><th>D</th><td>blood is essential for surgery, accident victims, and complicated childbirth</td></tr>
-          <tr><th>E</th><td>the lives of patients with chronic illnesses</td></tr>
-          <tr><th>F</th><td>medical experts</td></tr>
-          <tr><th>G</th><td>networks of volunteer donors who can be called upon when needed</td></tr>
-          <tr><th>H</th><td>transfusion-borne diseases such as hepatitis remain difficult to detect</td></tr>
-        </table>
-        <div class="eiken-completed">The shortage of donated blood has become a serious problem in recent decades, largely driven by the lack of funds to build and maintain refrigerated storage facilities in poorer regions. This poses a serious threat to hospitals in developing countries, since blood is essential for surgery, accident victims, and complicated childbirth, and could further endanger the lives of patients with chronic illnesses. In response, medical experts have introduced networks of volunteer donors who can be called upon when needed, in an effort to address the problem. However, such measures have clear limitations, as transfusion-borne diseases such as hepatitis remain difficult to detect, leaving the long-term viability of this approach uncertain.</div>
-      </details>
+      <div class="eiken-tip" style="background:var(--highlight-soft); border-left-color:var(--highlight); color:var(--highlight-dark);">💡 完成例3つは <strong>「✍️ 解答例」</strong> タブをご覧ください</div>
     </div>
 
     <!-- ========== ESSAY TEMPLATE ========== -->
@@ -2982,9 +3043,9 @@ function renderEikenTemplates() {
       <div class="eiken-subtitle">40 + 50 + 50 + 50 + 40 — 5-paragraph structure</div>
 
       <div class="eiken-template"><span class="eiken-fixed">[Introduction｜45-55 words]</span>
-Nowadays, the importance of <span class="eiken-slot">A</span> has been rapidly increasing.
-Despite this, some argue <span class="eiken-slot">B</span>.
-Although both are critical, I strongly believe that <span class="eiken-slot">A</span>.
+The importance of <span class="eiken-slot">A</span> has grown rapidly in recent decades.
+While some insist that <span class="eiken-slot">B</span>,
+I firmly believe that <span class="eiken-slot">C</span>.
 
 <span class="eiken-fixed">[Body 1｜~50 words]</span> First reason + supporting evidence/example.
 
@@ -2997,25 +3058,14 @@ In conclusion, for the reasons stated above ― the fact that <span class="eiken
 
       <div class="eiken-subtitle">📌 暗記すべき骨格フレーズ</div>
       <ul class="eiken-skel-list">
-        <li>Nowadays, the importance of ~ has been rapidly increasing.</li>
-        <li>Despite this, some argue ~. Although both are critical, I strongly believe that ~.</li>
+        <li>The importance of ~ has grown rapidly in recent decades.</li>
+        <li>While some insist that ~, I firmly believe that ~.</li>
         <li>For instance, ... / As a case in point, ... / Australia, for example, is said to have ...</li>
         <li>In conclusion, for the reasons stated above ― the fact that D, E, and F ―</li>
         <li>It is hoped the world becomes more aware of the importance of ~.</li>
       </ul>
 
-      <details class="eiken-example">
-        <summary>実例: Should economic development be prioritized over environmental protection? — 263 words</summary>
-        <div class="eiken-completed"><strong>[Intro 39w / 3s]</strong> Nowadays, the importance of economic development for developing countries has been rapidly increasing. Despite this, some argue environmental protection should be their focus. Although both are critical, I strongly believe that economic development should be prioritized over environmental protection.
-
-<strong>[Body 1 — Precursor 68w / 4s]</strong> First, economic development acts as a precursor to protecting the environment, but not vice versa. Australia, for example, is said to have spent approximately $8 billion to protect Great Barrier Reef. What allowed Australia to invest this amount of money is its steady economic growth since the country was established about 100 years ago. Without it, it could not have realized the conservation of this beautiful coral reef.
-
-<strong>[Body 2 — Lives saved 66w / 4s]</strong> Further, economic growth saves people's lives. For instance, a report issued by Cambridge University shows the number of deaths from starvation in China has declined dramatically with its GDP growth. The report says this is because its national income growth allowed the country to distribute food assistance to the poor. If the country had focused on environmental protection, it would have had to forsake these people.
-
-<strong>[Body 3 — Responsibility 54w / 3s]</strong> Lastly, developed countries are ultimately responsible for the world's environmental problems. As a case in point, many US corporations have outsourced their factories to developing nations such as Indonesia and Vietnam, and as a result, they have successfully shifted the burden of carbon dioxide emissions. The consequence of this is obviously economic disparity.
-
-<strong>[Conclusion 36w / 2s]</strong> For above reasons, there is no doubt that developing countries should give priority to economic growth over environmental protection. It is hoped the world becomes more aware of the importance of economic development in developing countries.</div>
-      </details>
+      <div class="eiken-tip" style="background:var(--highlight-soft); border-left-color:var(--highlight); color:var(--highlight-dark);">💡 完成エッセイ3つは <strong>「✍️ 解答例」</strong> タブをご覧ください</div>
     </div>
   `;
 }
@@ -3187,9 +3237,9 @@ function renderEikenExamples() {
       <table class="eiken-slot-table">
         ${ex.slots.map(([k, v]) => `<tr><th>${k}</th><td>${escapeHtml(v)}</td></tr>`).join("")}
       </table>
-      <div class="eiken-subtitle" style="margin-top:14px;">完成要約</div>
+      <div class="eiken-subtitle" style="margin-top:14px;">完成要約 <span style="color:var(--text-muted); font-weight:500; text-transform:none; letter-spacing:0;">(本番では1段落・改行禁止)</span></div>
       <div class="ex-essay">
-        ${ex.paragraphs.map(p => `<p class="ex-paragraph">${escapeHtml(p)}</p>`).join("")}
+        <p class="ex-paragraph">${ex.paragraphs.map(p => escapeHtml(p)).join(" ")}</p>
       </div>`;
   } else {
     body = `
@@ -3246,6 +3296,293 @@ function renderEikenExamples() {
       render();
     };
   });
+}
+
+// ----- Eiken: 添削 (Correction) -----
+const hl = (s) => `<mark class="essay-highlight">${s}</mark>`;
+
+function renderEikenCorrection() {
+  const type = state.correctionTab || "essay";
+  const tabBar = `
+    <div class="ex-tabs" style="margin-bottom:24px">
+      <div class="ex-tab-group-label">添削例</div>
+      <button class="ex-tab ${type === "essay" ? "active" : ""}" data-correction-tab="essay">✍️ Essay 添削 (Free Trade)</button>
+      <button class="ex-tab ${type === "summary" ? "active" : ""}" data-correction-tab="summary">📄 Summary 添削 (Biofuel)</button>
+    </div>`;
+  cardEl.innerHTML = eikenNavHtml() + tabBar + (type === "summary" ? correctionSummaryHtml() : correctionEssayHtml());
+  cardEl.querySelectorAll("[data-correction-tab]").forEach(btn => {
+    btn.onclick = () => {
+      state.correctionTab = btn.dataset.correctionTab;
+      saveState();
+      render();
+    };
+  });
+}
+
+function correctionEssayHtml() {
+  // New template-based version: Intro/Body1/Body2/Body3/Conclusion (≈237 words)
+  // Yellow highlights = slot fills (A/B/C/D/E/F)
+  const intro = `The importance of ${hl("international trade")} has grown rapidly in recent decades. While some insist that ${hl("trade should be tightly regulated to protect domestic industries")}, I firmly believe that ${hl("free trade agreements benefit the world economy as a whole")}.`;
+  const body1 = `First, free trade makes essential goods more accessible to people everywhere. Because no single country can produce everything its citizens need, open markets let nations import what they lack. During the COVID-19 pandemic, countries that kept their borders open to medical supplies obtained vaccines far faster than those that restricted imports.`;
+  const body2 = `Second, expanding markets allow companies to grow more efficiently. When firms sell to consumers worldwide rather than to one domestic market, they achieve economies of scale and reinvest their profits. This dynamic has contributed significantly to the steady rise in global GDP over the past thirty years.`;
+  const body3 = `Finally, free trade encourages each nation to specialize in what it does best. By removing barriers such as tariffs, countries can concentrate on their most competitive industries, which raises overall productivity. Many economists regard this principle of comparative advantage as a key driver of modern prosperity.`;
+  const conclusion = `In conclusion, for the reasons stated above ― ${hl("the fact that open markets improve access to goods")}, ${hl("that global competition strengthens companies")}, and ${hl("that specialization raises productivity")} ― it is hoped the world becomes more aware of the importance of ${hl("international trade")}.`;
+
+  const labeledPara = (label, words, content) => `
+    <div class="ex-paragraph">
+      <div class="ex-label">${label} <span style="opacity:0.7; font-weight:600;">${words}w</span></div>
+      <p>${content}</p>
+    </div>`;
+
+  const essayBody = `
+    <div class="ex-essay">
+      ${labeledPara("[Introduction]", 47, intro)}
+      ${labeledPara("[Body 1]", 52, body1)}
+      ${labeledPara("[Body 2]", 48, body2)}
+      ${labeledPara("[Body 3]", 46, body3)}
+      ${labeledPara("[Conclusion]", 44, conclusion)}
+    </div>`;
+
+  const slots = [
+    ["A", "international trade", "メイントピック (Intro冒頭・Conclusion末尾で繰り返し)"],
+    ["B", "trade should be tightly regulated to protect domestic industries", "反対意見 — While some insist that B"],
+    ["C", "free trade agreements benefit the world economy as a whole", "自分の立場 — I firmly believe that C"],
+    ["D", "open markets improve access to goods", "理由①の要約 (Body 1)"],
+    ["E", "global competition strengthens companies", "理由②の要約 (Body 2)"],
+    ["F", "specialization raises productivity", "理由③の要約 (Body 3)"],
+  ];
+
+  const spelling = [
+    ["trat","trade"], ["Althaugh","Although"], ["what (they what)","want"],
+    ["immediatly","immediately"], ["multienational","multinational"],
+    ["acordingly","accordingly"], ["shews","shows"], ["ecomic","economic"],
+    ["withaut","without"], ["commerse","commerce"],
+  ];
+  const articlesMissing = [
+    ["have positive effect","have <strong>a</strong> positive effect"],
+    ["on world economy","on <strong>the</strong> world economy"],
+    ["Experts argue US has","Experts argue <strong>the</strong> US has"],
+    ["drives US economic growth","drives <strong>the</strong> US economic growth"],
+  ];
+  const articlesChoice = [
+    ["the economy or corporations","特定の経済を指していないので the が不適切。<strong>businesses and corporations</strong> のように無冠詞複数が自然"],
+    ["because of a close-border policy","文脈上その国が取った特定の政策なので、a より <strong>the closed-border policy</strong> が自然"],
+    ["beyond the country","どの国か特定されていないので the が不自然。<strong>beyond national borders</strong> などに"],
+    ["beyond a country framework (結論)","\"a country framework\" 自体がぎこちない。<strong>beyond national borders</strong> が自然で、冠詞問題も同時に解消"],
+  ];
+  const svAgreement = [["globalization have contributed","globalization <strong>has</strong> contributed"]];
+  const verbTense = [
+    ["people in Africa have difficulty","<strong>had</strong> difficulty (past event)"],
+    ["as soon as they allow","as soon as they <strong>allowed</strong>"],
+  ];
+  const wordForm = [
+    ["economy growth","<strong>economic</strong> growth (2回)"],
+    ["close-border policy","<strong>closed-border</strong> policy"],
+  ];
+  const verbPattern = [["has led us expand","has led us <strong>to</strong> expand"]];
+  const plural = [["such as tariff","such as <strong>tariffs</strong>"]];
+  const collocation = [
+    ["almost one single factor","不自然。e.g. <strong>one of the main drivers</strong>"],
+    ["embrace this theory","\"theory\" は不適切。free trade は <strong>approach / principle</strong>"],
+  ];
+  const structure = [
+    ["結論: \"...has led us expand business..., we should continue...\"","2つの主節が無理に1文に。<strong>一節1アイデア</strong>で切る。<br>例: <em>Because free trade has allowed us to expand beyond national borders, we should continue to embrace it.</em>"],
+  ];
+  const contentIssues = [
+    ["\"the problem was immediately solved\"","因果関係が誇張・検証不能"],
+    ["\"A piece of data shows...\"","具体数値のない曖昧なソース"],
+    ["\"Experts argue...\"","曖昧なソース"],
+    ["序論で \"trade should be regulated\" に触れたが本文で扱わず","譲歩/反論の欠落 — 採点項目に直撃"],
+  ];
+
+  const errorRow = ([wrong, right]) => `<div class="err-row"><div class="err-wrong">${wrong}</div><div class="err-arrow">→</div><div class="err-right">${right}</div></div>`;
+  const errorGroup = (title, items) => `
+    <div class="err-group">
+      <div class="err-group-title">${title}</div>
+      ${items.map(errorRow).join("")}
+    </div>`;
+
+  return `
+    <div class="eiken-section">
+      <h3 class="eiken-heading">🖍️ Essay 添削 — Free Trade (新テンプレ流し込み)</h3>
+      <div class="eiken-subtitle">237 words・5段落 — 蛍光ペン箇所 = スロット (A〜F) の中身</div>
+
+      ${essayBody}
+
+      <div class="eiken-tip" style="background:var(--highlight-soft); border-left-color:var(--highlight); color:var(--highlight-dark);">
+        ✅ <strong>各セクション語数</strong>: Intro 47w / Body1 52w / Body2 48w / Body3 46w / Conclusion 44w — 合計 <strong>237w</strong> (200-240 範囲内)
+      </div>
+    </div>
+
+    <div class="eiken-section">
+      <h3 class="eiken-heading">📝 スロット埋め (A〜F)</h3>
+      <div class="eiken-subtitle">テンプレ枠に内容を流し込んだマッピング</div>
+
+      <table class="eiken-slot-table">
+        ${slots.map(([k, v, note]) => `<tr><th>${k}</th><td>${escapeHtml(v)}<div style="font-size:0.78rem; color:var(--text-muted); margin-top:3px;">${escapeHtml(note)}</div></td></tr>`).join("")}
+      </table>
+
+      <div class="eiken-tip" style="margin-top:14px;">
+        📌 <strong>Conclusion の並列構造</strong>: <em>"the fact that D, that E, and that F"</em> — 2つ目以降を <strong>that</strong> で受けて節として揃える。これで <em>the fact that</em> 構文が途中で崩れない。
+      </div>
+    </div>
+
+    <!-- ========== APPENDIX: Dash structure column ========== -->
+    <div class="eiken-section">
+      <h3 class="eiken-heading">📎 付則 — Conclusion のダッシュ構造</h3>
+      <div class="eiken-subtitle">最終パラグラフ詳解 — ダッシュ ― の使い方</div>
+
+      <div style="background: var(--surface-2); border-left: 4px solid var(--text); padding: 16px 20px; margin: 14px 0;">
+        <div style="font-size: 0.82rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">① 文の骨格 (ダッシュを外すと見える)</div>
+        <div style="font-family: ui-monospace, monospace; font-size: 0.88rem; color: var(--text); line-height: 1.7; padding: 8px 12px; background: var(--surface); border-radius: 3px;">
+          In conclusion, <strong>for the reasons stated above</strong>, it is hoped (that) the world becomes more aware of the importance of international trade.
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-2); margin-top: 8px; line-height: 1.6;">
+          → 主語 <strong>it</strong>・動詞 <strong>is hoped</strong>・<strong>that 節</strong>、で完結した正しい文。
+        </div>
+      </div>
+
+      <div style="background: var(--surface-2); border-left: 4px solid var(--text); padding: 16px 20px; margin: 14px 0;">
+        <div style="font-size: 0.82rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">② ダッシュ ― の役割</div>
+        <ul style="margin: 0; padding-left: 20px; line-height: 1.85; font-size: 0.92rem;">
+          <li>2本のダッシュで挟んで、<strong>補足説明を文中に挿入</strong> (同格の言い換え)</li>
+          <li>ここでは ${hl("for the reasons stated above")} (上記の理由) を、${hl("the fact that D, that E, and that F")} で具体的に言い換え</li>
+          <li>カッコ ( ) やカンマ , でも代用できるが、ダッシュは<strong>挿入が長め・強調したいとき</strong>に使う</li>
+        </ul>
+      </div>
+
+      <div style="background: var(--highlight-soft); border-left: 4px solid var(--highlight); padding: 16px 20px; margin: 14px 0; color: var(--highlight-dark);">
+        <div style="font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">⚠️ 注意点</div>
+        <div style="font-size: 0.92rem; line-height: 1.7;">
+          挟まれた部分が長いので、<strong>読みにくさは出る</strong>。本番では減点はされないが、もっと安全にするなら下記の書き換え案へ。
+        </div>
+      </div>
+
+      <div style="background: var(--surface-2); border-left: 4px solid var(--success); padding: 16px 20px; margin: 14px 0;">
+        <div style="font-size: 0.82rem; font-weight: 800; color: var(--success); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">③ より安全な書き換え案 (2文分割)</div>
+        <div style="font-family: ui-monospace, monospace; font-size: 0.88rem; color: var(--text); line-height: 1.8; padding: 8px 12px; background: var(--surface); border-radius: 3px;">
+          In conclusion, ${hl("open markets improve access to goods")}, ${hl("global competition strengthens companies")}, and ${hl("specialization raises productivity")}. It is hoped that the world becomes more aware of the importance of international trade.
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-2); margin-top: 8px; line-height: 1.6;">
+          → ダッシュ挿入をやめ、<strong>2文に分割</strong>。崩れるリスクがゼロになる。
+        </div>
+      </div>
+
+      <div style="background: var(--surface-2); border-left: 4px solid var(--text); padding: 16px 20px; margin: 14px 0;">
+        <div style="font-size: 0.82rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;">④ ダッシュ ― の使い方まとめ</div>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 8px 10px; font-weight: 700; color: var(--highlight); white-space: nowrap; vertical-align: top;">1本</td>
+            <td style="padding: 8px 10px;">文末に付け足し<br><em style="color: var(--text-muted); font-family: ui-monospace, monospace;">… productivity ― a clear benefit.</em></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 8px 10px; font-weight: 700; color: var(--highlight); white-space: nowrap; vertical-align: top;">2本</td>
+            <td style="padding: 8px 10px;">文中に補足を挟む (今回の用法)<br><em style="color: var(--text-muted);">― ... ―</em></td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 10px; font-weight: 700; color: var(--text-muted); white-space: nowrap; vertical-align: top;">覚え方</td>
+            <td style="padding: 8px 10px;">カンマより<strong>強く</strong>、カッコより<strong>目立つ</strong> 「強調つき挿入」</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="eiken-section">
+      <h3 class="eiken-heading">📋 元のエラー一覧</h3>
+      <div class="eiken-subtitle">カテゴリ別 — 修正前 → 修正後</div>
+
+      ${errorGroup("Spelling (スペル)", spelling)}
+      ${errorGroup("Articles — 脱落 (a/the が無い)", articlesMissing)}
+      ${errorGroup("Articles — a/the の使い分けミス", articlesChoice.map(([a,b]) => [a, b]))}
+      ${errorGroup("Subject–Verb Agreement (主語と動詞)", svAgreement)}
+      ${errorGroup("Verb Tense (時制)", verbTense)}
+      ${errorGroup("Word Form / Part of Speech (語形)", wordForm)}
+      ${errorGroup("Verb Pattern (to不定詞抜け)", verbPattern)}
+      ${errorGroup("Plural / Countability (可算)", plural)}
+      ${errorGroup("Word Choice / Collocation (語選択)", collocation)}
+      ${errorGroup("Sentence Structure (Run-on)", structure)}
+      ${errorGroup("Logic / Content (内容)", contentIssues)}
+    </div>
+
+    <div class="eiken-section">
+      <h3 class="eiken-heading">📌 冠詞ミス 深掘り</h3>
+      <div class="eiken-subtitle">2種類のミスを区別して対策する</div>
+
+      <div class="eiken-tip"><strong>① 入れ忘れ</strong>: a/the が必要なのに無い (特に <strong>the US</strong> のような固有名詞の the 落とし)</div>
+      <div class="eiken-tip"><strong>② 選択ミス</strong>: 入っているけど a と the の選択が逆 / 不要 (「特定なのに a」「不特定なのに the」)</div>
+
+      <div class="eiken-tip" style="background:var(--highlight-soft); border-left-color:var(--highlight); color:var(--highlight-dark);">
+        💡 <strong>対策</strong>: 日本語に冠詞が無いぶん②は気づきにくい。書き終わったら<strong>名詞ひとつずつ「特定か？初出か？」</strong>と確認するのが効く。
+      </div>
+    </div>
+  `;
+}
+
+function correctionSummaryHtml() {
+  // Corrected version using S1-S4 template, 1 paragraph, 110 words
+  const summary = `The worldwide surge in ${hl("fuel consumption")} has become a major issue in recent decades, largely driven by ${hl("the rapid spread of car ownership")}. This poses a serious threat to ${hl("the environment")}, since ${hl("gasoline and diesel are finite fossil fuels whose combustion drives climate change")}, and could further endanger ${hl("a car-dependent society")} once these resources run out. In response, ${hl("scientists")} have introduced ${hl("a process using bacteria to turn animal and plant waste into carbon-neutral biofuel")}, in an effort to address the problem. However, such measures have clear limitations, as ${hl("the technology is still too inefficient for large-scale use and has discouraged government funding")}, leaving the long-term viability of this approach uncertain.`;
+
+  // Original (student's) version
+  const original = `Climate change has become a major issue these days, largely driven by fossil fuels emitted by cars worldwide. Recently, people in developing countries also have gained wealth enough to own cars, this is not likely to stop. This poses a serious threat to environment and endanger society once the recouse depletes. In respose, scientists have introduced a system that produces fuels from animal and plant waste to tackle this problem. However, such measures have clear limitations, as the solution is not efficient enough, leaving the long-term viability of this approach uncertain.`;
+
+  const slots = [
+    ["A", "the worldwide surge in fuel consumption", "燃料消費の増加"],
+    ["B", "the rapid spread of car ownership", "車の普及"],
+    ["C", "the environment", "環境"],
+    ["D", "gasoline and diesel are finite fossil fuels whose combustion drives climate change", "化石燃料が有限 + CO₂で気候変動"],
+    ["E", "a car-dependent society", "車依存社会 (前回 抜け①の "],
+    ["F", "scientists", "研究者"],
+    ["G", "a process using bacteria to turn animal and plant waste into carbon-neutral biofuel", "carbon-neutral biofuel ← 前回 抜け①回収"],
+    ["H", "the technology is still too inefficient for large-scale use and has discouraged government funding", "効率の悪さ＋政府の資金提供ためらい ← 前回 抜け②回収"],
+  ];
+
+  return `
+    <div class="eiken-section">
+      <h3 class="eiken-heading">🖍️ Summary 添削 — Biofuel (S1〜S4テンプレ流し込み)</h3>
+      <div class="eiken-subtitle">110 words・1段落 — 蛍光ペン箇所 = スロット (A〜H) の中身</div>
+
+      <div class="correction-essay">
+        <p class="correction-para">${summary}</p>
+      </div>
+
+      <div class="eiken-tip" style="background:var(--highlight-soft); border-left-color:var(--highlight); color:var(--highlight-dark);">
+        ✅ <strong>110語ちょうど</strong> (上限ぎりぎり、もう一声削るなら S2 の <em>"a car-dependent society"</em> を <em>"society"</em> に縮められる)
+      </div>
+    </div>
+
+    <div class="eiken-section">
+      <h3 class="eiken-heading">📝 スロット埋め (A〜H)</h3>
+      <div class="eiken-subtitle">テンプレ枠に内容を流し込んだマッピング</div>
+
+      <table class="eiken-slot-table">
+        ${slots.map(([k, v, note]) => `<tr><th>${k}</th><td>${escapeHtml(v)}<div style="font-size:0.78rem; color:var(--text-muted); margin-top:3px;">${escapeHtml(note)}</div></td></tr>`).join("")}
+      </table>
+
+      <div class="eiken-tip" style="margin-top:14px;">⚠️ <strong>注意</strong>: <em>"could further endanger E"</em> のような「枠の語」に引っ張られて<strong>本文に無い主張を入れると内容点を落とす</strong>。今回は「資源枯渇時に深刻な問題」という原文記述が E を支えているのでセーフ。</div>
+    </div>
+
+    <div class="eiken-section">
+      <h3 class="eiken-heading">📄 元の答案 (Before)</h3>
+      <div class="eiken-subtitle">あなたが書いた版 — 内容点で減点された2か所</div>
+
+      <div class="correction-essay" style="opacity: 0.75;">
+        <p class="correction-para" style="border-left-color: var(--error); color: var(--text-2);">${original}</p>
+      </div>
+
+      <div class="eiken-tip" style="margin-top:12px;"><strong>抜け①</strong>: バイオ燃料がなぜ解決策になるのか (CO₂を出さない / carbon-neutral)</div>
+      <div class="eiken-tip"><strong>抜け②</strong>: 効率の悪さの帰結 (政府が資金提供をためらう)</div>
+    </div>
+
+    <div class="eiken-section">
+      <h3 class="eiken-heading">💡 学び</h3>
+      <div class="eiken-subtitle">Summary で減点されないポイント</div>
+
+      <div class="eiken-tip"><strong>① S1〜S4 の4文フレームが最強</strong>: problem → threat → solution → limitation。環境・技術系passageに完璧に合う。</div>
+      <div class="eiken-tip"><strong>② スロットの中身は原文に根拠</strong>: テンプレの「could further endanger E」につられて本文に無い主張を入れない。</div>
+      <div class="eiken-tip"><strong>③ 解決策の核心を1語で</strong>: <em>carbon-neutral</em>、<em>preventive</em>、<em>scalable</em> のような<strong>「なぜそれが解決策か」</strong>を表す形容詞を G に必ず入れる。</div>
+      <div class="eiken-tip"><strong>④ 限界の帰結まで書く</strong>: "not efficient" で止めず、<strong>誰が何を渋っているか</strong>まで H に入れる。</div>
+    </div>
+  `;
 }
 
 // ----- Eiken: Reason Options -----
