@@ -1151,10 +1151,8 @@
 <div class="controls">
   <div class="control-row">
     <span class="control-label">モード</span>
+    <button class="chip active" data-mode="list">一覧</button>
     <button class="chip" data-mode="eiken">📝 英検1級 (Summary/Essay)</button>
-    <button class="chip" data-mode="list">一覧</button>
-    <button class="chip" data-mode="quiz-base">4択クイズ</button>
-    <button class="chip active" data-mode="flashcard">フラッシュカード</button>
   </div>
   <div class="control-row" id="source-row">
     <span class="control-label">ソース</span>
@@ -2782,7 +2780,7 @@ const EXTRA_VOCAB = [
 // ============================================
 const STORAGE_KEY = "paraphrase_master_v1";
 const defaultState = {
-  mode: "flashcard",
+  mode: "list",
   source: "all",
   topic: "all",
   pos: "all",
@@ -2804,8 +2802,8 @@ function loadState() {
     if (!raw) return { ...defaultState };
     const parsed = JSON.parse(raw);
     // Migrate removed modes/sources to supported ones
-    const validModes = ["eiken", "list", "flashcard", "quiz-base"];
-    if (!validModes.includes(parsed.mode)) parsed.mode = "flashcard";
+    const validModes = ["eiken", "list"];
+    if (!validModes.includes(parsed.mode)) parsed.mode = "list";
     const validSources = ["all", "paraphrase", "topic"];
     if (!validSources.includes(parsed.source)) parsed.source = "all";
     return { ...defaultState, ...parsed };
@@ -4265,7 +4263,7 @@ document.getElementById("reset-btn").onclick = () => {
     localStorage.removeItem(STORAGE_KEY);
     state = { ...defaultState };
     currentWord = null; revealed = false; typingShown = new Set();
-    document.querySelectorAll("[data-mode]").forEach(b => b.classList.toggle("active", b.dataset.mode === "flashcard"));
+    document.querySelectorAll("[data-mode]").forEach(b => b.classList.toggle("active", b.dataset.mode === "list"));
     document.querySelectorAll("[data-pos]").forEach(b => b.classList.toggle("active", b.dataset.pos === "all"));
     document.querySelectorAll("[data-level]").forEach(b => b.classList.toggle("active", b.dataset.level === "all"));
     document.querySelectorAll("[data-source]").forEach(b => b.classList.toggle("active", b.dataset.source === "all"));
