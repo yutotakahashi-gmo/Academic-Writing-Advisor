@@ -3703,6 +3703,47 @@ function renderEikenParaphrase() {
     ["long-term（長期的な）", "forward-looking / lasting / enduring / long-range / sustained / over the long run / for years to come"],
   ];
 
+  // ③ 重要動詞の言い換え（各10・ニュアンス付き）
+  const verbBanks = [
+    { head: "introduce（導入する・紹介する）", items: [
+      ["present", "プレゼンする、提案する"],
+      ["bring in", "導入する、取り入れる"],
+      ["launch", "発表する、開始する"],
+      ["unveil", "明かす、発表する（新製品など）"],
+      ["initiate", "開始する、着手する"],
+      ["put forward", "提案する、提示する"],
+      ["establish", "確立する、導入する"],
+      ["pioneer", "先駆けて行う、新展開する"],
+      ["usher in", "導入する、始める（新時代など）"],
+      ["release", "リリースする、発表する"],
+    ]},
+    { head: "implement（実装する・実行する）", items: [
+      ["execute", "実行する、遂行する"],
+      ["carry out", "遂行する、実施する"],
+      ["deploy", "配置する、運用化する（テク文脈）"],
+      ["apply", "適用する、応用する"],
+      ["put into effect", "実施に移す、発効する"],
+      ["enforce", "実行する、強制執行する"],
+      ["operationalize", "運用化する、実現する"],
+      ["actualize", "実現する、現実化する"],
+      ["roll out", "展開する、段階的に導入する"],
+      ["enact", "制定する、実施する（制度など）"],
+    ]},
+  ];
+
+  const renderVerbBank = (bank) => `
+    <div style="margin-top:16px;">
+      <div style="font-weight:800; color:var(--text); font-size:0.95rem; margin-bottom:4px;">${escapeHtml(bank.head)}</div>
+      <table style="width:100%; border-collapse:collapse;">
+        ${bank.items.map(([w, g], i) => `
+          <tr>
+            <td style="width:30px; text-align:right; color:var(--text-muted); font-family:ui-monospace,monospace; font-size:0.78rem; padding:5px 8px; border-bottom:1px solid var(--border); vertical-align:top;">${i + 1}</td>
+            <td style="font-weight:700; color:var(--highlight); white-space:nowrap; padding:5px 8px; border-bottom:1px solid var(--border); vertical-align:top;">${escapeHtml(w)}</td>
+            <td style="color:var(--text-2); font-size:0.85rem; padding:5px 8px; border-bottom:1px solid var(--border);">${escapeHtml(g)}</td>
+          </tr>`).join("")}
+      </table>
+    </div>`;
+
   const renderTable = (rows) => `
     <table style="width:100%; border-collapse:collapse; margin-top:10px;">
       <tr>
@@ -3731,6 +3772,9 @@ function renderEikenParaphrase() {
 
       <div class="eiken-subtitle" style="margin-top:26px;">② 汎用頻出語の言い換え（名詞・動詞）</div>
       ${renderTable(generalWords)}
+
+      <div class="eiken-subtitle" style="margin-top:26px;">③ 重要動詞の言い換え（各10・ニュアンス付き）</div>
+      ${verbBanks.map(renderVerbBank).join("")}
     </div>
   `;
 }
