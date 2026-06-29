@@ -2970,6 +2970,7 @@ function eikenNavHtml() {
     { id: "templates", label: "📝 Templates" },
     { id: "examples", label: "✍️ 解答例" },
     { id: "reasons", label: "💡 Reason Options" },
+    { id: "paraphrase", label: "🔤 パラフレーズ" },
     { id: "correction", label: "🖍️ 添削" },
     { id: "words", label: "📚 単語" },
   ];
@@ -2994,6 +2995,7 @@ function renderEikenView() {
   if (tab === "templates") renderEikenTemplates();
   else if (tab === "examples") renderEikenExamples();
   else if (tab === "reasons") renderEikenReasons();
+  else if (tab === "paraphrase") renderEikenParaphrase();
   else if (tab === "correction") renderEikenCorrection();
   else if (tab === "words") renderEikenWords();
   else renderEikenTemplates();
@@ -3645,6 +3647,90 @@ function renderEikenReasons() {
 
       <div class="eiken-subtitle" style="margin-top:24px;">Bonus — Soft Angles (5 categories)</div>
       ${bonus.map(renderReason).join("")}
+    </div>
+  `;
+}
+
+// ----- Eiken: パラフレーズ集 (ported from eiken1-interview-trainer) -----
+function renderEikenParaphrase() {
+  // ① 重複回避パラフレーズ（テンプレ頻出語・各5）
+  const templateWords = [
+    ["essential（不可欠）", "vital / crucial / indispensable / imperative / of paramount importance"],
+    ["importance（重要性）", "significance / value / relevance / weight / salience"],
+    ["address〔動〕（対処する）", "tackle / deal with / resolve / mitigate / confront"],
+    ["demonstrate〔動〕（示す）", "show / indicate / reveal / confirm / illustrate"],
+    ["robust（強固な）", "solid / sound / effective / resilient / reliable"],
+    ["solution（解決策）", "approach / remedy / measure / strategy / answer"],
+    ["prove effective（効果を示す）", "work well / yield results / deliver outcomes / bear fruit / succeed"],
+    ["crucial（極めて重要）", "pivotal / key / imperative / paramount / instrumental"],
+    ["advance〔動〕（進める）", "promote / foster / further / strengthen / develop"],
+    ["support the position（立場を支持）", "back the view / reinforce the case / uphold the argument / substantiate the claim / lend weight to it"],
+  ];
+  // ② 汎用頻出語の言い換え（名詞・動詞・各5）
+  const generalWords = [
+    ["society（社会）", "community / the public / the social fabric / the nation / civilization"],
+    ["people（人々）", "individuals / citizens / the public / the population / members of society"],
+    ["stakeholders（関係者）", "parties involved / those affected / interested parties / participants / key players"],
+    ["involve〔動〕（含む・関与）", "entail / include / engage / encompass / require"],
+    ["challenge（課題）", "problem / issue / difficulty / obstacle / hurdle"],
+    ["problem（問題）", "issue / challenge / difficulty / concern / drawback"],
+    ["important（重要な）", "significant / vital / crucial / key / notable"],
+    ["increase〔動〕（増える）", "rise / grow / expand / surge / escalate"],
+    ["decrease〔動〕（減る）", "decline / drop / fall / diminish / reduce"],
+    ["improve〔動〕（改善する）", "enhance / boost / strengthen / upgrade / refine"],
+    ["benefit（利点）", "advantage / gain / merit / upside / plus"],
+    ["help〔動〕（助ける）", "aid / assist / support / contribute to / foster"],
+    ["effective（効果的な）", "efficient / productive / successful / potent / impactful"],
+    ["significant（重大な）", "considerable / substantial / notable / marked / sizable"],
+    ["many（多くの）", "numerous / a great deal of / countless / a wide range of / plenty of"],
+    ["believe〔動〕（考える）", "consider / maintain / contend / hold / be convinced"],
+    ["show〔動〕（示す）", "demonstrate / indicate / reveal / illustrate / reflect"],
+    ["cause〔動〕（引き起こす）", "lead to / result in / bring about / give rise to / trigger"],
+    ["solve〔動〕（解決する）", "resolve / address / tackle / settle / fix"],
+    ["need（必要性）", "necessity / demand / requirement / call for / prerequisite"],
+    ["development（発展）", "progress / growth / advancement / evolution / expansion"],
+    ["government（政府）", "the authorities / the state / policymakers / the administration / officials"],
+    ["economy（経済）", "financial system / market / commerce / fiscal conditions / economic sphere"],
+    ["environment（環境）", "ecosystem / nature / the natural world / surroundings / the planet"],
+    ["technology（技術）", "innovation / digital tools / technical advances / technical means / tech"],
+    ["education（教育）", "schooling / instruction / learning / training / academia"],
+    ["opinion（意見）", "perspective / standpoint / stance / viewpoint / position"],
+    ["result（結果）", "outcome / consequence / effect / upshot / repercussion"],
+    ["create〔動〕（生み出す）", "produce / generate / establish / form / build"],
+    ["protect〔動〕（守る）", "safeguard / preserve / defend / shield / secure"],
+    ["impact（影響）", "effect / influence / consequence / bearing / ramification"],
+    ["aware（気づいて）", "conscious / mindful / cognizant / alert to / informed of"],
+    ["long-term（長期的な）", "forward-looking / lasting / enduring / long-range / sustained / over the long run / for years to come"],
+  ];
+
+  const renderTable = (rows) => `
+    <table style="width:100%; border-collapse:collapse; margin-top:10px;">
+      <tr>
+        <th style="text-align:left; font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; border-bottom:2px solid var(--border); padding:6px 8px; white-space:nowrap; vertical-align:bottom;">頻出語</th>
+        <th style="text-align:left; font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; border-bottom:2px solid var(--border); padding:6px 8px;">言い換え（5つ）</th>
+      </tr>
+      ${rows.map(([w, p]) => `
+        <tr>
+          <td style="font-weight:700; color:var(--text); white-space:nowrap; vertical-align:top; padding:9px 8px; border-bottom:1px solid var(--border); font-size:0.9rem;">${escapeHtml(w)}</td>
+          <td style="padding:9px 8px; border-bottom:1px solid var(--border);">
+            <span style="display:flex; flex-wrap:wrap; gap:4px 6px;">
+              ${p.split(" / ").map(x => `<span class="para-pill" style="font-size:0.78rem; padding:2px 8px;">${escapeHtml(x)}</span>`).join("")}
+            </span>
+          </td>
+        </tr>`).join("")}
+    </table>`;
+
+  cardEl.innerHTML = eikenNavHtml() + `
+    <div class="eiken-section">
+      <h3 class="eiken-heading">パラフレーズ集 <span class="eiken-word-count">${templateWords.length + generalWords.length} 語 × 5</span></h3>
+      <div class="eiken-subtitle">同じ語の連発は減点要因 — 話す/書くたびに下から選んで変化を（面接・エッセイ共通）</div>
+      <div class="eiken-tip">⚠️ 特に <strong>essential / important / long-term</strong> は多用しがち。1エッセイ内で同じ語を3回以上使ったら言い換えを検討。</div>
+
+      <div class="eiken-subtitle" style="margin-top:18px;">① 重複回避パラフレーズ（テンプレ頻出語）</div>
+      ${renderTable(templateWords)}
+
+      <div class="eiken-subtitle" style="margin-top:26px;">② 汎用頻出語の言い換え（名詞・動詞）</div>
+      ${renderTable(generalWords)}
     </div>
   `;
 }
