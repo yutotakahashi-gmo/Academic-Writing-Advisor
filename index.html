@@ -2906,6 +2906,8 @@ let currentWord = null;
 let revealed = false;
 
 function render() {
+  // 英検1級モードは廃止 — 保存済みの状態が eiken の場合は一覧へ
+  if (state.mode === "eiken") { state.mode = "list"; saveState(); }
   updateStats();
   const isEikenMode = state.mode === "eiken";
   const pool = filteredVocab();
